@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="30" id="xve-Vh-LoR" customClass="PopSelectTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xve-Vh-LoR" id="xhH-O3-Jbz">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LvP-k3-UAl">
+                        <rect key="frame" x="45" y="13" width="249" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" tag="201" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G0h-jO-wqD">
+                        <rect key="frame" x="15" y="42.5" width="305" height="1"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Ph1-GJ-gxL"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iNg-Hk-En7">
+                        <rect key="frame" x="15" y="12" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="5fr-Je-XtA"/>
+                            <constraint firstAttribute="width" secondItem="iNg-Hk-En7" secondAttribute="height" id="Lnj-lG-xQT"/>
+                        </constraints>
+                        <connections>
+                            <action selector="buttonSelectClick:" destination="xve-Vh-LoR" eventType="touchUpInside" id="DAv-T5-3VK"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="LvP-k3-UAl" secondAttribute="trailing" constant="10" id="0Ra-RN-T3F"/>
+                    <constraint firstItem="LvP-k3-UAl" firstAttribute="leading" secondItem="iNg-Hk-En7" secondAttribute="trailing" constant="10" id="1ZX-0X-O9Y"/>
+                    <constraint firstAttribute="bottom" secondItem="G0h-jO-wqD" secondAttribute="bottom" id="Mmh-l1-gTF"/>
+                    <constraint firstAttribute="trailing" secondItem="G0h-jO-wqD" secondAttribute="trailing" id="Rgt-ZG-e8A"/>
+                    <constraint firstItem="iNg-Hk-En7" firstAttribute="centerY" secondItem="xhH-O3-Jbz" secondAttribute="centerY" id="Vem-m6-PQY"/>
+                    <constraint firstItem="LvP-k3-UAl" firstAttribute="centerY" secondItem="xhH-O3-Jbz" secondAttribute="centerY" id="YJj-nz-x7k"/>
+                    <constraint firstItem="iNg-Hk-En7" firstAttribute="leading" secondItem="xhH-O3-Jbz" secondAttribute="leading" constant="15" id="auA-VK-bCz"/>
+                    <constraint firstItem="G0h-jO-wqD" firstAttribute="leading" secondItem="xhH-O3-Jbz" secondAttribute="leading" constant="15" id="hVu-hR-068"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="buttonSelect" destination="iNg-Hk-En7" id="CcB-s4-4aa"/>
+                <outlet property="imageVLine" destination="G0h-jO-wqD" id="yX5-A7-n1J"/>
+                <outlet property="labelTitle" destination="LvP-k3-UAl" id="MKD-xT-2zv"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
