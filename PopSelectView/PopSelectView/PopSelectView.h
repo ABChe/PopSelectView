@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PopSelectModel.h"
 
 @class PopSelectView;
+
 @protocol PopSelectViewDelegate <NSObject>
 
 - (void)popSelectView:(PopSelectView *)PopSelectView didSelectArray:(NSArray *)array;
-
 @end
 
 
@@ -20,7 +21,7 @@
 
 @property (nonatomic, weak) id <PopSelectViewDelegate> delegate;
 
-- (instancetype)initWithDataArray:(NSArray<NSDictionary *> *)dataArray;
+- (instancetype)initWithDataArray:(NSArray<PopSelectModel *> *)dataArray singleSelect:(BOOL)singleSelect;
 
 - (void)showView;
 

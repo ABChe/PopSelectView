@@ -8,10 +8,8 @@
 
 #import "ViewController.h"
 #import "PopSelectView.h"
-#import "PopSelectModel.h"
 
-@interface ViewController ()
-
+@interface ViewController ()<PopSelectViewDelegate>
 
 @end
 
@@ -19,12 +17,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    
-//    [self createUI];
-    
-    
-    
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -32,35 +24,21 @@
     
     for (int i = 0; i < 10; i++) {
         PopSelectModel *model = [PopSelectModel new];
-        model.title = [NSString stringWithFormat:@"%ld",i];
-        model.key = [NSNumber numberWithInt:i];
+        model.title = [NSString stringWithFormat:@"%d",i];
+        model.key = [NSString stringWithFormat:@"%@",[NSNumber numberWithInt:i]];
         model.selected = NO;
         [array addObject:model];
     }
     
-    PopSelectView *popView =  [[PopSelectView alloc] initWithDataArray:array];
-    
+    PopSelectView *popView =  [[PopSelectView alloc] initWithDataArray:array singleSelect:YES];
+    popView.delegate = self;
     [popView showView];
 }
 
-//- (void)createUI {
-//    UIWindow *mainWindow = nil;
-//    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11) {
-//        mainWindow = [[UIApplication sharedApplication].windows firstObject];
-//    } else {
-//        mainWindow = [[UIApplication sharedApplication].windows lastObject];
-//    }
-//
-//    [mainWindow addSubview:self.view];
-//
-//
-//}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)popSelectView:(PopSelectView *)PopSelectView didSelectArray:(NSArray *)array {
+    [array enumerateObjectsUsingBlock:^(PopSelectModel *model, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"%@ - %@\n", model.title, model.key);
+    }];
 }
-
 
 @end

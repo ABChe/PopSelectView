@@ -11,13 +11,12 @@
 
 @interface PopSelectTableViewCell : UITableViewCell
 
-
 @property (weak, nonatomic) IBOutlet UIImageView *imageVLine;
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSelect;
 
-
 - (IBAction)buttonSelectClick:(id)sender;
 
 - (void)setCellWithModel:(PopSelectModel *)model;
+
 @end

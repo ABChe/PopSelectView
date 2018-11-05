@@ -8,7 +8,7 @@
 
 #import "PopSelectView.h"
 #import "PopSelectTableViewCell.h"
-
+#import "PopSelectModel.h"
 
 #pragma mark -
 
@@ -35,19 +35,22 @@ static NSString *PopCellMain = @"PopCellMain";
 
 @property (nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, strong) NSMutableArray *selectedArray;
+@property (nonatomic, strong) NSIndexPath *lastSelectedIndexPath;
 
+@property (nonatomic, assign, getter = isSingleSelect) BOOL singleSelect;
 @end
+
 
 @implementation PopSelectView
 
-
 #pragma mark -
 
-- (instancetype)initWithDataArray:(NSArray<NSDictionary *> *)dataArray{
+- (instancetype)initWithDataArray:(NSArray<PopSelectModel *> *)dataArray singleSelect:(BOOL)singleSelect{
     self = [super init];
     if (self) {
         self.dataArray = [NSArray arrayWithArray:dataArray];
         self.selectedArray = [NSMutableArray array];
+        self.singleSelect = singleSelect;
         
         [self topViewAddSubviews];
         [self bottomViewAddSubviews];
@@ -56,10 +59,8 @@ static NSString *PopCellMain = @"PopCellMain";
         [self addSubview:self.tabelView];
         [self addSubview:self.bottomView];
     }
-    
     return self;
 }
-
 
 - (void)layoutSubviews {
     CGFloat topViewHeight = kPopTopViewHeight;
@@ -92,15 +93,31 @@ static NSString *PopCellMain = @"PopCellMain";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    PopSelectTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [cell buttonSelectClick:cell.buttonSelect];
     
-    PopSelectModel *model = self.dataArray[indexPath.row];
-    model.selected = cell.buttonSelect.selected;
-    if (cell.buttonSelect.selected) {
-        [self.selectedArray addObject:model];
-    } else {
-        [self.selectedArray removeObject:model];
+    if (self.isSingleSelect)
+    {
+        // 单选
+        if (indexPath == self.lastSelectedIndexPath) {
+            [self deselectCellAtIndexPath:indexPath];
+            self.lastSelectedIndexPath = nil;
+        } else {
+            [self deselectCellAtIndexPath:self.lastSelectedIndexPath];
+            [self selectCellAtIndexPath:indexPath];
+            self.lastSelectedIndexPath = indexPath;
+        }
+    }
+    else
+    {
+        // 多选
+        PopSelectModel *model = self.dataArray[indexPath.row];
+        
+        if (model.isSelected) {
+            [self deselectCellAtIndexPath:indexPath];
+            self.lastSelectedIndexPath = nil;
+        } else {
+            [self selectCellAtIndexPath:indexPath];
+            self.lastSelectedIndexPath = indexPath;
+        }
     }
 }
 
@@ -110,6 +127,27 @@ static NSString *PopCellMain = @"PopCellMain";
 
 
 #pragma mark - Method
+
+- (void)selectCellAtIndexPath:(NSIndexPath *)indexPath {
+    PopSelectTableViewCell *cell = [self.tabelView cellForRowAtIndexPath:indexPath];
+    [cell buttonSelectClick:cell.buttonSelect];
+
+    PopSelectModel *model = self.dataArray[indexPath.row];
+    model.selected = YES;
+    [self.selectedArray addObject:model];
+    
+}
+
+- (void)deselectCellAtIndexPath:(NSIndexPath *)indexPath {
+    if(!indexPath) return;
+    
+    PopSelectTableViewCell *cell = [self.tabelView cellForRowAtIndexPath:indexPath];
+    [cell buttonSelectClick:cell.buttonSelect];
+
+    PopSelectModel *model = self.dataArray[indexPath.row];
+    [self.selectedArray removeObject:model];
+    model.selected = NO;
+}
 
 - (void)showView{
     UIWindow *mainWindow = nil;
@@ -150,9 +188,6 @@ static NSString *PopCellMain = @"PopCellMain";
 }
 
 - (void)clickSureButton {
-    
-    NSLog(@"%@", self.selectedArray);
-    
     if (self.delegate && [self.delegate respondsToSelector:@selector(popSelectView:didSelectArray:)]) {
         [self.delegate popSelectView:self didSelectArray:self.selectedArray];
     }
@@ -162,7 +197,6 @@ static NSString *PopCellMain = @"PopCellMain";
 - (void)clickCancelButton {
     [self tapMask];
 }
-
 
 
 #pragma mark - TopView
